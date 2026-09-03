@@ -1,0 +1,20 @@
+# TouchDesigner プロジェクト本体は大きい(MediaPipe学習モデル埋込で~170MB)ため
+# git管理せず GitHub Releases に添付する
+*.toe
+*.toe.orig
+*.[0-9].toe
+
+# ログ・一時ファイル
+*.log
+client_out.jpg
+srv.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
