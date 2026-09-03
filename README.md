@@ -47,7 +47,9 @@ GPU側の変換サーバーは、TD非依存で再利用可能な [streamdiffusi
 
 ## 解説記事
 
-（Zenn記事リンクをここに追記）
+[手の軌跡をAIで塗り替える：TouchDesignerでリアルタイム Hand Tracking × AI Trails を作る](https://zenn.dev/ryok/articles/touchdesigner-hand-trail-ai)（Zenn）
+
+構成の解説、Macでの制約、実装の落とし穴（Feedback TOP が `cook(force=True)` では蓄積しない件など）、自作GPUサーバーの詳細を書いています。
 
 ## ライセンス
 
