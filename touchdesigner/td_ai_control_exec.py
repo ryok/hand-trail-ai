@@ -9,10 +9,14 @@
 # =============================================================
 WS = '/project1/websocket1'
 
+# 被写体を名指すプロンプトが「軌跡→生き物」の鍵。強度(Strength)を高くして使う。
 PRESETS = {
-    'Dragon':  'neon dragon made of flowing energy, dark background',
-    'Inkwash': 'flowing ink wash painting, glowing smoke, elegant',
-    'Neon':    'glowing neon light trails, cyberpunk, vibrant colors, dark background',
+    'Phoenix': 'a majestic phoenix bird made of glowing embers and flowing light, '
+               'wings spread wide, elegant, dark background, cinematic, highly detailed',
+    'Dragon':  'an eastern dragon made of flowing neon energy, coiling through darkness, '
+               'glowing scales, dark background, cinematic, highly detailed',
+    'Aurora':  'a swirling aurora of glowing gas and stardust, ethereal cosmic light, '
+               'deep space nebula, dark background, highly detailed',
 }
 
 
@@ -25,9 +29,10 @@ def _send(msg):
 
 
 def _strength_to_tindex(s):
-    # s=0(弱・入力に忠実) → [30,40] / s=1(強・AI解釈) → [10,20]
-    # s=0.4 で [22,32](既定)に一致
-    a = int(round(30 - s * 20))
+    # s=0(弱・入力に忠実) → [30,40] / s=1(最強・生き物が創発) → [4,14]
+    # 生き物が出るのは概ね t_index<=[8,18]。既定Strength=0.85で[8,18]付近になる。
+    a = int(round(30 - s * 26))
+    a = max(2, a)
     return a, a + 10
 
 
