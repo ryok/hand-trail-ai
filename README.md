@@ -1,5 +1,25 @@
 # hand-trail-ai
 
+Draw a glowing trail in the air with your finger, and have AI repaint it in real time —
+into a dragon, a phoenix, whatever you prompt.
+
+A TouchDesigner project: **MediaPipe** hand tracking builds the trail locally, and a
+**self-hosted [StreamDiffusion](https://github.com/cumulo-autumn/StreamDiffusion) server**
+([streamdiffusion-ws](https://github.com/ryok/streamdiffusion-ws)) repaints it over
+WebSocket — no paid hosted service. Prompts and style strength are switchable live, so the
+same hand motion becomes a different creature.
+
+Pipeline: `camera → MediaPipe (21 hand landmarks) → glowing trail (Script TOP + numpy) →
+WebSocket → StreamDiffusion img2img on a GPU box → back into TouchDesigner`.
+Steady state is ~3–4 fps round trip; the trail itself runs at 60 fps.
+
+The `.toe` is attached to [Releases](../../releases) (it embeds MediaPipe's models, ~170 MB).
+Requires [TouchDesigner](https://derivative.ca/) and the
+[MediaPipe TouchDesigner Plugin](https://github.com/torinmb/mediapipe-touchdesigner).
+Detailed docs below are in Japanese.
+
+---
+
 指で空中に描いた発光トレイルを、自前GPUの **StreamDiffusion** でリアルタイムにAI変換する
 TouchDesigner プロジェクト。Reddit の
 [Real Time Hand Tracking AI Trails](https://www.reddit.com/r/TouchDesigner/comments/1v3npnj/real_time_hand_tracking_ai_trails_w/)
