@@ -13,6 +13,9 @@ SIZE = 512
 
 _latest_jpg_b64 = None
 _inflight = False
+_sent_at = 0.0          # 最後に送信した時刻(秒)
+TIMEOUT = 3.0           # 応答がこの秒数返らなければ送信済み扱いを解除(ウォッチドッグ)
+                        # 接続断で応答が来ないと _inflight が固まり ai_out が凍るため
 
 
 def _encode(top, size=SIZE):
@@ -33,12 +36,18 @@ def _encode(top, size=SIZE):
 
 
 def send_frame(dat):
-    global _inflight
+    global _inflight, _sent_at
+    now = absTime.seconds
     if _inflight:
-        return
+        if now - _sent_at < TIMEOUT:
+            return
+        # ウォッチドッグ: 応答が来ないまま TIMEOUT 経過 → 見捨てて再送を許可
+        debug('[ws] response timeout, releasing inflight')
+        _inflight = False
     try:
         dat.sendText(_encode(op(SRC_TOP)))
         _inflight = True
+        _sent_at = now
     except Exception as e:
         debug('send_frame err:', e)
 
