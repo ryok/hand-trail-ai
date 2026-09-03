@@ -11,7 +11,9 @@ def onCook(scriptOp):
     cb = op(CB_PATH)
     b64 = getattr(cb.module, '_latest_jpg_b64', None) if cb else None
     if not b64:
-        scriptOp.clear()
+        # まだフレーム未受信: 黒を出す(scriptTOPに .clear() は無い)
+        import numpy as np
+        scriptOp.copyNumpyArray(np.zeros((512, 512, 4), np.float32))
         return
     try:
         import cv2
