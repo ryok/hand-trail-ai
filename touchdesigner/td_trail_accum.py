@@ -57,9 +57,11 @@ def onCook(scriptOp):
         except Exception:
             fx = fy = None
         if fx is not None:
-            # 正規化0..1 → ピクセル。Yはプラグインが下原点なので素直に使う
+            # 正規化0..1 → ピクセル。
+            # copyNumpyArray は行0が画像の下端(TD原点)、MediaPipeのYも下原点
+            # (手を上げるとy増加)。両方下原点なので反転しない。
             cx = int(fx * SIZE)
-            cy = int((1.0 - fy) * SIZE)      # numpyは上が0行なので反転
+            cy = int(fy * SIZE)
             r, gg, b = _rainbow(absTime.seconds)
             y0, y1 = max(0, cy - RADIUS), min(SIZE, cy + RADIUS + 1)
             x0, x1 = max(0, cx - RADIUS), min(SIZE, cx + RADIUS + 1)
