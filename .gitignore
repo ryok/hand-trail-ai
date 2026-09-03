@@ -2,6 +2,7 @@
 # git管理せず GitHub Releases に添付する
 *.toe
 *.toe.orig
+*.toe.release
 *.[0-9].toe
 
 # ログ・一時ファイル

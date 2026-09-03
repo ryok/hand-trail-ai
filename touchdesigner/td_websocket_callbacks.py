@@ -21,7 +21,12 @@ def _encode(top, size=SIZE):
     a = top.numpyArray(delayed=False)                 # float32 RGBA 0..1, 左下原点
     rgb = (np.flipud(a)[:, :, :3] * 255).clip(0, 255).astype('uint8')
     bgr = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
-    if bgr.shape[1] != size or bgr.shape[0] != size:
+    # 中央正方形クロップ(横潰れ防止): 1280x720 → 中央720x720 → size
+    h, w = bgr.shape[:2]
+    s = min(h, w)
+    y0, x0 = (h - s) // 2, (w - s) // 2
+    bgr = bgr[y0:y0 + s, x0:x0 + s]
+    if s != size:
         bgr = cv2.resize(bgr, (size, size))
     ok, enc = cv2.imencode('.jpg', bgr, [cv2.IMWRITE_JPEG_QUALITY, 85])
     return base64.b64encode(enc.tobytes()).decode('ascii')
